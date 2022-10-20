@@ -4,6 +4,7 @@ Các hàm quan trọng cần quan tâm:
 
 - log.error() và log.info()
 - createAnswer()
+- processRequest(Request request)
 
 Quan trọng nhất là file Client :))
 
@@ -21,7 +22,7 @@ Class Stack:
 Class StackType:
 
 Class Request: Chứa các request nhận được
-|-- Request.getCommandCode(): Nhận về Command Code của Diameter. Những cái được sử dụng là 8388620 đến 8388622
+|-- Request.getCommandCode(): Nhận về Command Code của Diameter
 |-- Request.getAvps()->AvpSet - Nhận lấy các AVP có được trong bản tin đó
 |-- Request.createAnswer(resultCode)->Answer - Tạo answer từ cái resultcode được chỉ định, nó sẽ tạo header và systemAVP đã được sao chép để answer
 
@@ -43,3 +44,4 @@ Class Avp: Chứa một AVP cụ thể
 |-- Avp.ORIGIN_REALM - AVP: Origin-Realm(296)
 
 Class Session: Tạo một phiên request - answer
+|-- Session.createRequest(commandCode, ...) - Những cái được sử dụng là 8388620 đến 8388622
