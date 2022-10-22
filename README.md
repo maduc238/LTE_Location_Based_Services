@@ -8,6 +8,7 @@ Các hàm quan trọng cần quan tâm:
 
 Quan trọng nhất là file Client :))
 
+```
 Class Stack:
 |-- getMetaData()
    |-- getLocalPeer()
@@ -45,3 +46,4 @@ Class Avp: Chứa một AVP cụ thể
 
 Class Session: Tạo một phiên request - answer
 |-- Session.createRequest(commandCode, ...) - Những cái được sử dụng là 8388620 đến 8388622
+```
