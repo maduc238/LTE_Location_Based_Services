@@ -51,6 +51,7 @@ Class Session: Tạo một phiên request - answer
 Application ID:
 - 3GPP SLh: 16777291
 - 3GPP SLg: 16777255
+
 Command Code:
 - name="3GPP-Provide-Location" code="8388620"
 - name="3GPP-Location-Report" code="8388621"
