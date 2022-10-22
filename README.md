@@ -47,3 +47,11 @@ Class Avp: Chứa một AVP cụ thể
 Class Session: Tạo một phiên request - answer
 |-- Session.createRequest(commandCode, ...) - Những cái được sử dụng là 8388620 đến 8388622
 ```
+
+Application ID:
+- 3GPP SLh: 16777291
+- 3GPP SLg: 16777255
+Command Code:
+- name="3GPP-Provide-Location" code="8388620"
+- name="3GPP-Location-Report" code="8388621"
+- name="3GPP-LCS-Routing-Info" code="8388622"
