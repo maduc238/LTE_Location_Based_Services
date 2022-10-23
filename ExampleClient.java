@@ -72,11 +72,11 @@ public class ExampleClient implements EventListener<Request, Answer> {
   private static final String serverPort = "3868";
   private static final String serverURI = "aaa://" + serverHost + ":" + serverPort;
   //our realm
-  private static final String realmName = "exchange.example.org";
+  private static final String realmName = "localdomain";
   // definition of codes, IDs
   private static final int commandCode = 686;
   private static final long vendorID = 66666;
-  private static final long applicationID = 33333;
+  private static final long applicationID = 16777291;
   private ApplicationId authAppId = ApplicationId.createByAuthAppId(applicationID);
   private static final int exchangeTypeCode = 888;
   private static final int exchangeDataCode = 999;
@@ -203,7 +203,7 @@ public class ExampleClient implements EventListener<Request, Answer> {
         e.printStackTrace();
       }
       //do send
-      this.session = this.factory.getNewSession("BadCustomSessionId;YesWeCanPassId;" + System.currentTimeMillis());
+      this.session = this.factory.getNewSession("gmlc.localdomain;" + System.currentTimeMillis() + ";app_slh");
       sendNextRequest(EXCHANGE_TYPE_INITIAL);
     } catch (InternalException e) {
       // TODO Auto-generated catch block
@@ -222,23 +222,41 @@ public class ExampleClient implements EventListener<Request, Answer> {
   }
 
   private void sendNextRequest(int enumType) throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
-    Request r = this.session.createRequest(commandCode, this.authAppId, realmName, serverURI);
-    // here we have all except our custom avps
-
+    Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", serverURI);
     AvpSet requestAvps = r.getAvps();
-    // code , value , vendor, mandatory,protected,isUnsigned32
-    // (Enumerated)
-    Avp exchangeType = requestAvps.addAvp(exchangeTypeCode, (long) enumType, vendorID, true, false, true); // value
-                                                        // is
-                                                        // set
-                                                        // on
-                                                        // creation
-    // code , value , vendor, mandatory,protected, isOctetString
-    Avp exchengeData = requestAvps.addAvp(exchangeDataCode, TO_SEND[toSendIndex++], vendorID, true, false, false); // value
-                                                            // is
-                                                            // set
-                                                            // on
-                                                            // creation
+
+    // Auth-Session-State
+    requestAvps.addAvp(277, 1, true, false);
+    // User-Name
+    requestAvps.addAvp(1, "452041234567813", true, false, false);
+    // MSISDN
+    String number = "840987654321";
+    String cd = "";
+    for(int i=0; i < number.length()/2;i++){
+        // System.out.println(Integer.decode("0x4d2"));
+        int temp = Integer.decode("0x"+number.charAt(2*i+1)+number.charAt(2*i));
+        cd += Character.toString((char)temp);
+        // System.out.println(str);
+    }
+    requestAvps.addAvp(701, cd, 10415, true, false, true);
+    // GMLC-Number
+    requestAvps.addAvp(1474, "1", 10415, true, false, true);
+
+    // Vendor-Specific-Application-Id
+    /*
+    requestAvps.addAvp(260);
+      AvpSet vendor_spec;
+      vendor_spec.addAvp(requestAvps.getAvp(258));
+      // Auth-Application-Id
+      vendor_spec.addAvp(266, 10415, true, false);
+    requestAvps.addAvp(vendor_spec);
+
+    
+    // requestAvps.addAvp
+    */
+    
+    requestAvps.removeAvp(258);
+
     // send
     this.session.send(r, this);
     dumpMessage(r,true); //dump info on console
