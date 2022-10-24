@@ -77,7 +77,8 @@ public class ExampleClient implements EventListener<Request, Answer> {
   private static final int commandCode = 686;
   private static final long vendorID = 66666;
   private static final long applicationID = 16777216;
-  private ApplicationId authAppId = ApplicationId.createByAuthAppId(applicationID);
+  // private ApplicationId authAppId = ApplicationId.createByAuthAppId(applicationID);
+  private ApplicationId authAppId = ApplicationId.createByAuthAppId(10415, applicationID);
   private static final int exchangeTypeCode = 888;
   private static final int exchangeDataCode = 999;
   // enum values for Exchange-Type AVP
@@ -223,7 +224,7 @@ public class ExampleClient implements EventListener<Request, Answer> {
 
   private void sendNextRequest(int enumType) throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
     // Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", serverURI);
-    Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", "127.0.0.8");
+    Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", "hss.localdomain");
     AvpSet requestAvps = r.getAvps();
 
     // Auth-Session-State
