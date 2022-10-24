@@ -56,11 +56,11 @@ private static void configLog4j() {
 }
   private static final String configFile = "org/example/server/server-jdiameter-config.xml";
   private static final String dictionaryFile = "org/example/client/dictionary.xml";
-  private static final String realmName = "exchange.example.org";
+  private static final String realmName = "localdomain";
   // Defs for our app
   private static final int commandCode = 686;
   private static final long vendorID = 66666;
-  private static final long applicationID = 33333;
+  private static final long applicationID = 16777291;
   private ApplicationId authAppId = ApplicationId.createByAuthAppId(applicationID);;
   private static final int exchangeTypeCode = 888;
   private static final int exchangeDataCode = 999;
