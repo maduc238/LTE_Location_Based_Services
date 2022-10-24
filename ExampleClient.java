@@ -203,7 +203,7 @@ public class ExampleClient implements EventListener<Request, Answer> {
         e.printStackTrace();
       }
       //do send
-      this.session = this.factory.getNewSession("gmlc.localdomain;" + System.currentTimeMillis() + ";app_slh");
+      this.session = this.factory.getNewSession(serverHost+ ";" + System.currentTimeMillis() + ";app_slh");
       sendNextRequest(EXCHANGE_TYPE_INITIAL);
     } catch (InternalException e) {
       // TODO Auto-generated catch block
@@ -243,19 +243,16 @@ public class ExampleClient implements EventListener<Request, Answer> {
     requestAvps.addAvp(1474, "1", 10415, true, false, true);
 
     // Vendor-Specific-Application-Id
-    /*
-    requestAvps.addAvp(260);
-      AvpSet vendor_spec;
-      vendor_spec.addAvp(requestAvps.getAvp(258));
-      // Auth-Application-Id
-      vendor_spec.addAvp(266, 10415, true, false);
-    requestAvps.addAvp(vendor_spec);
+    // requestAvps.addAvp(260, "hello", true, false, false);
+    
+    
+    AvpSet vendor_spec = requestAvps.addGroupedAvp(260, true, false);
+    vendor_spec.addAvp(requestAvps.getAvp(258));
+    // Auth-Application-Id
+    vendor_spec.addAvp(266, 10415, true, false);
+    
 
-    
-    // requestAvps.addAvp
-    */
-    
-    requestAvps.removeAvp(258);
+    // requestAvps.removeAvp(258);
 
     // send
     this.session.send(r, this);
