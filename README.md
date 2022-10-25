@@ -56,3 +56,11 @@ Command Code:
 - name="3GPP-Provide-Location" code="8388620"
 - name="3GPP-Location-Report" code="8388621"
 - name="3GPP-LCS-Routing-Info" code="8388622"
+
+Chạy:
+```
+mvn install -f "pom.xml" -Dcheckstyle.skip
+```
+```
+java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.client.ExampleClient
+```
