@@ -32,6 +32,7 @@ import org.jdiameter.server.impl.StackImpl;
 import org.jdiameter.server.impl.helpers.XMLConfiguration;
 import org.mobicents.diameter.dictionary.AvpDictionary;
 import org.mobicents.diameter.dictionary.AvpRepresentation;
+// import org.jdiameter.api.slh.events.LCSRoutingInfoRequest;
 
 public class ExampleClient implements EventListener<Request, Answer> {
 
@@ -223,14 +224,13 @@ public class ExampleClient implements EventListener<Request, Answer> {
   }
 
   private void sendNextRequest(int enumType) throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
-    // Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", serverURI);
     Request r = this.session.createRequest(8388622, this.authAppId, "localdomain", "hss.localdomain");
     AvpSet requestAvps = r.getAvps();
 
     // Auth-Session-State
-    requestAvps.addAvp(277, 1, true, false);
+    requestAvps.addAvp(Avp.AUTH_SESSION_STATE, 1, true, false);
     // User-Name
-    requestAvps.addAvp(1, "452041234567813", true, false, false);
+    requestAvps.addAvp(Avp.USER_NAME, "452041234567813", true, false, false);
     // MSISDN
     String number = "840987654321";
     String cd = "";
@@ -240,18 +240,15 @@ public class ExampleClient implements EventListener<Request, Answer> {
         cd += Character.toString((char)temp);
         // System.out.println(str);
     }
-    requestAvps.addAvp(701, cd, 10415, true, false, true);
+    requestAvps.addAvp(Avp.MSISDN, cd, 10415, true, false, true);
     // GMLC-Number
-    requestAvps.addAvp(1474, "1", 10415, true, false, true);
+    requestAvps.addAvp(Avp.GMLC_NUMBER, "1", 10415, true, false, true);
 
     // Vendor-Specific-Application-Id
-    // requestAvps.addAvp(260, "hello", true, false, false);
-    
-    
-    AvpSet vendor_spec = requestAvps.addGroupedAvp(260, true, false);
-    vendor_spec.addAvp(requestAvps.getAvp(258));
+    AvpSet vendor_spec = requestAvps.addGroupedAvp(Avp.VENDOR_SPECIFIC_APPLICATION_ID, true, false);
     // Auth-Application-Id
-    vendor_spec.addAvp(266, 10415, true, false);
+    vendor_spec.addAvp(requestAvps.getAvp(Avp.AUTH_APPLICATION_ID));
+    vendor_spec.addAvp(Avp.VENDOR_ID, 10415, true, false);
     
 
     // requestAvps.removeAvp(258);
