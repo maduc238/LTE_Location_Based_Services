@@ -375,6 +375,45 @@ public class GMLC implements EventListener<Request, Answer>{
 		this.session.send(r, this);
 		// Ok
 	}
+
+	/**
+	 * Send Location Report Request
+	 * @throws InternalException
+	 * @throws IllegalDiameterStateException
+	 * @throws RouteException
+	 * @throws OverloadException
+	 */
+	private void sendLRR() throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
+		Request r = this.session.createRequest(8388621, this.authAppId_MME, "localdomain", "mme.localdomain");
+		AvpSet requestAvps = r.getAvps();
+	
+		// Auth-Session-State
+		requestAvps.addAvp(Avp.AUTH_SESSION_STATE, 1, true, false);
+
+		/************************************************************************************************************/
+		// User-Name
+		requestAvps.addAvp(Avp.USER_NAME, "452041234567813", true, false, false);
+
+		/************************************************************************************************************/
+		// MSISDN
+		String number = "840987654321";
+		String cd = "";
+		for(int i=0; i < number.length()/2;i++){
+			int temp = Integer.decode("0x"+number.charAt(2*i+1)+number.charAt(2*i));
+			cd += Character.toString((char)temp);
+		}
+		requestAvps.addAvp(Avp.MSISDN, cd, 10415, true, false, true);
+
+		/************************************************************************************************************/
+		// GMLC-Number
+		requestAvps.addAvp(Avp.GMLC_NUMBER, "1", 10415, true, false, true);
+		
+		// ...
+		
+		// send
+		this.session.send(r, this);
+		// Ok
+	}
 	
 	int count = 0;
 
