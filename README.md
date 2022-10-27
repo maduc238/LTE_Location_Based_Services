@@ -1,5 +1,7 @@
 # GMLC build trên jDiameter
 
+Source code của jDiamete: https://github.com/RestComm/jdiameter
+
 File `GMLC.java` và `config.xml` chứa code ứng dụng để tạo khối GMLC và cấu hình cho GMLC để kết nối với HSS và MME. Tất cả được chứa trong folder Open5gs`
 
 Các interface sử dụng để trao đổi bản tin Diameter:
