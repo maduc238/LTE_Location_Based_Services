@@ -6,4 +6,18 @@ Các interface sử dụng để trao đổi bản tin Diameter:
 - SLh: Kết nối với HSS (127.0.0.8)
 - SLg: Kết nối với MME (127.0.0.2)
 
+```
+            --------------
+            |    GMLC    |
+            | 127.0.0.10 |
+            --------------
+       SLg /              \ SLh
+          /                \
+  -------------         -------------
+  |    MME    |         |    HSS    |
+  | 127.0.0.2 |         | 127.0.0.8 |
+  -------------         -------------
+
+```
+
 Sử dụng: Bật `Open5gs` để tạo HSS và MME. Sau đó chạy `GMLC`
