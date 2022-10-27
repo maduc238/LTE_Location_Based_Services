@@ -644,6 +644,13 @@ public class GMLC implements EventListener<Request, Answer>{
 
 		/************************************************************************************************************/
 		// Pseudonym-Indicator
+		// 0 .. 1
+		/**
+		 * It defines if a pseudonym is requested
+		 * 0 PSEUDONYM_NOT_REQUESTED
+		 * 1 PSEUDONYM_REQUESTED
+		 */
+		requestAvps.addAvp(Avp.PSEUDONYM_INDICATOR, 0, VENDOR_ID, true, false);
 
 		/************************************************************************************************************/
 		// LCS-QoS-Class
@@ -752,19 +759,53 @@ public class GMLC implements EventListener<Request, Answer>{
 
 		/************************************************************************************************************/
 		// ESMLC-Cell-Info
+		// 0 .. 1
+		// AvpSet esmlc_cell = requestAvps.addGroupedAvp(Avp.ESMLC_CELL_INFO, VENDOR_ID, false, false);
+			// esmlc_cell.addAvp(Avp.ECGI, "ABCD", VENDOR_ID, true, false, true);
+			// esmlc_cell.addAvp(Avp.CELL_PORTION_ID);
 
 		/************************************************************************************************************/
 		// 1xRTT-RCID
+		// 0 .. 1
+		/**
+		 * OctetString
+		 * It indicates the 1xRTT Reference Cell Id that consists of a Cell
+		 * Identification Discriminator and a Cell Identification and shall be formatted according to octets 3 through the end of the
+		 * Cell Identifier element defined in clause 4.2.17 in 3GPP2 A.S0014-D [22]. The allowable cell discriminator values are
+		 * "0000 0010", and "0000 0111"
+		 */
 
 		/************************************************************************************************************/
 		// Delayed-Location-Reporting-Data
+		// 0 .. 1
+		// AvpSet delayed_location_reporting = requestAvps.addGroupedAvp(Avp.DELAYED_LOCATION_REPORTING, VENDOR_ID, false, true);
+			// delayed_location_reporting.addAvp(Avp.TERMINATION_CAUSE_LCS);
+			// AvpSet delay_serving_node = delayed_location_reporting.addGroupedAvp(Avp.SERVING_NODE, VENDOR_ID, true, false);
+				// delay_serving_node.addAvp(Avp.SGSN_NUMBER);
+				// delay_serving_node.addAvp(Avp.SGSN_NAME);
+				// delay_serving_node.addAvp(Avp.SGSN_REALM);
+				// delay_serving_node.addAvp(Avp.MME_NAME);
+				// delay_serving_node.addAvp(Avp.MME_REALM);
+				// delay_serving_node.addAvp(Avp.MSC_NUMBER);
+				// delay_serving_node.addAvp(Avp.TGPP_AAA_SERVER_NAME);
+				// delay_serving_node.addAvp(Avp.LCS_CAPABILITIES_SETS);
+				// delay_serving_node.addAvp(Avp.GMLC_ADDRESS, InetAddress.getByName("127.0.0.1"), VENDOR_ID, true, false);
 
 		/************************************************************************************************************/
 		// Civic-Address
+		// 0 .. 1
+		/**
+		 * Contains the XML document carried in the "Civic Address" Information Element as defined in 3GPP TS 29.171
+		 */
+		requestAvps.addAvp(Avp.CIVIC_ADDRESS, "hello.xml", VENDOR_ID, false, false, false);
 
 		/************************************************************************************************************/
 		// Barometric-Pressure
-
+		// 0 .. 1
+		/**
+		 * It contains the "Barometric Pressure" Information Element as defined in 3GPP TS 29.171
+		 */
+		requestAvps.addAvp(Avp.BAROMETRIC_PRESSURE, 123, VENDOR_ID, false, false, true);
 		
 		// send
 		this.session.send(r, this);
