@@ -23,3 +23,14 @@ Các interface sử dụng để trao đổi bản tin Diameter:
 ```
 
 Sử dụng: Bật `Open5gs` để tạo HSS và MME. Sau đó chạy `GMLC`
+
+Tự build:
+```
+mvn install -f "pom.xml" -Dcheckstyle.skip
+```
+
+Ném file `example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar` vào đường dẫn `.../target/`
+```
+java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.server.ExampleServer
+```
+Chạy và bật wireshark trên `lo` để xem kết quả
