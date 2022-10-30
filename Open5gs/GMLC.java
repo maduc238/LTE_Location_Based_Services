@@ -31,7 +31,6 @@ public class GMLC implements EventListener<Request, Answer>{
 	// our destination
 	private static final long applicationID_HSS = 16777291;
 	private static final long applicationID_MME = 16777255;
-	// private ApplicationId authAppId = ApplicationId.createByAuthAppId(applicationID);
 	private ApplicationId authAppId_HSS = ApplicationId.createByAuthAppId(VENDOR_ID, applicationID_HSS);
 	private ApplicationId authAppId_MME = ApplicationId.createByAuthAppId(VENDOR_ID, applicationID_MME);
 	// our realm
@@ -123,7 +122,7 @@ public class GMLC implements EventListener<Request, Answer>{
 			//do send
 			this.session = this.factory.getNewSession("gmlc.localdomain;" + System.currentTimeMillis() + ";app_lcs");
 			Request r = this.session.createRequest(8388622, this.authAppId_HSS, "localdomain", "hss.localdomain");
-			this.session.send(ProcessRequest.processRIR(r), this);
+			this.session.send(RIR.processRIR(r), this);
 
 		} catch (InternalException e) {
 			e.printStackTrace();
@@ -154,7 +153,7 @@ public class GMLC implements EventListener<Request, Answer>{
         try {
 			long resultCode = resultAvp.getUnsigned32();
 			// Catch error
-            if (resultCode == 5001 ){
+            if (resultCode == 5001){
 				this.session.release();
                 this.session = null;
 				System.out.println("User identified by the IMSI or the MSISDN is unknown!");
@@ -180,10 +179,10 @@ public class GMLC implements EventListener<Request, Answer>{
             }
 			if (answerCommandCode == 8388622) {
 				Request r = this.session.createRequest(8388620, this.authAppId_MME, "localdomain", "mme.localdomain");
-				this.session.send(ProcessRequest.processPLR(r), this);
+				this.session.send(PLR.processPLR(r), this);
 
 				r = this.session.createRequest(8388621, this.authAppId_MME, "localdomain", "mme.localdomain");
-				this.session.send(ProcessRequest.processLRR(r), this);
+				this.session.send(LRR.processLRR(r), this);
 
 				this.session.release();
                 this.session = null;
