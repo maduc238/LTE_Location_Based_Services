@@ -57,14 +57,14 @@
       <Realm name="localdomain" peers="127.0.0.8" local_action="LOCAL" dynamic="false" exp_time="1">
         <ApplicationID>
           <VendorId value="10415" />
-          <AuthApplId value="16777216" />
+          <AuthApplId value="16777291" />
           <AcctApplId value="0" />
         </ApplicationID>
       </Realm>
       <Realm name="localdomain" peers="127.0.0.2" local_action="LOCAL" dynamic="false" exp_time="1">
         <ApplicationID>
           <VendorId value="10415" />
-          <AuthApplId value="16777251" />
+          <AuthApplId value="16777255" />
           <AcctApplId value="0" />
         </ApplicationID>
       </Realm>
