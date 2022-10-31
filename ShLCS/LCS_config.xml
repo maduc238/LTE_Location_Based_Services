@@ -7,7 +7,7 @@
     <IPAddresses>
       <IPAddress value="192.168.14.35" />
     </IPAddresses>
-    <Realm value="mnc004.mcc452.3gppnetwork.org" />
+    <Realm value="ims.mnc004.mcc452.3gppnetwork.org" />
     <VendorID value="10415" />
     <ProductName value="jDiameter" />
     <FirmwareRevision value="1" />
@@ -53,7 +53,7 @@
     </Peers>
 
     <Realms>
-      <Realm name="mnc004.mcc452.3gppnetwork.org" peers="192.168.14.31" local_action="LOCAL" dynamic="false" exp_time="1">
+      <Realm name="ims.mnc004.mcc452.3gppnetwork.org" peers="192.168.14.31" local_action="LOCAL" dynamic="false" exp_time="1">
         <ApplicationID>
           <VendorId value="10415" />
           <AuthApplId value="16777217" />
