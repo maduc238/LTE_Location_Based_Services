@@ -37,4 +37,6 @@ Chạy và bật wireshark trên `lo` để xem kết quả
 
 # LCS application trên Sh interface
 
-Folder
+Folder `ShLCS` chứa khối Sh client, gửi bản tin User-Data Request tới server
+
+Folder `Server` chứa khối Sh server, gửi bản tin User-Data Answer v
