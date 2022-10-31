@@ -112,7 +112,7 @@ public class ShLCS implements EventListener<Request, Answer>{
 			}
 			//do send
 			this.session = this.factory.getNewSession("lbsanm." + realmName + ";" + System.currentTimeMillis());
-			Request r = this.session.createRequest(306, this.authAppId_HSS, realmName, "ims.mnc004.mcc452.3gppnetwork.org");
+			Request r = this.session.createRequest(306, this.authAppId_HSS, realmName, "HSPD01.ims.mnc004.mcc452.3gppnetwork.org");
 			r.setProxiable(true);
 			AvpSet requestAvps = r.getAvps();
 			sendRequest(r);
