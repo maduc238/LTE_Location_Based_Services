@@ -34,3 +34,7 @@ Ném file `example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar` vào đường d�
 java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.server.ExampleServer
 ```
 Chạy và bật wireshark trên `lo` để xem kết quả
+
+# LCS application trên Sh interface
+
+Folder
