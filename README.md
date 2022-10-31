@@ -2,7 +2,13 @@
 
 Source code của jDiamete: https://github.com/RestComm/jdiameter
 
-File `GMLC.java` và `config.xml` chứa code ứng dụng để tạo khối GMLC và cấu hình cho GMLC để kết nối với HSS và MME. Tất cả được chứa trong folder Open5gs`
+Cụ thể:
+- Khối GMLC chứa trong folder `GMLC`
+- Khối HSS và MME đều chứa trong foler `Server`
+  - HSS trong `SlhServer.java`
+  - MME trong `SlgServer.java`
+
+File `GMLC.java` và `config.xml` chứa code ứng dụng để tạo khối GMLC và cấu hình cho GMLC để kết nối với HSS và MME
 
 Các interface sử dụng để trao đổi bản tin Diameter:
 - SLh: Kết nối với HSS (127.0.0.8)
