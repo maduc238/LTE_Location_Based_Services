@@ -32,7 +32,7 @@ public class ShLCS implements EventListener<Request, Answer>{
 	private static final long applicationID_HSS = 16777217;
 	private ApplicationId authAppId_HSS = ApplicationId.createByAuthAppId(VENDOR_ID, applicationID_HSS);
 	// our realm
-	private static final String realmName = "mnc004.mcc452.3gppnetwork.org";
+	private static final String realmName = "ims.mnc004.mcc452.3gppnetwork.org";
 
 	private static final long VENDOR_ID = 10415;
 	private static final String MSISDN = "84976643224";
@@ -128,6 +128,11 @@ public class ShLCS implements EventListener<Request, Answer>{
 		}
 	}
 
+	/**
+	 * Just use for MSISDN
+	 * @param a Number of MSISDN String
+	 * @return Encoded String value
+	 */
 	private String magicConvert(String a) {
         String cd = "";
         int len = a.length();
@@ -155,7 +160,6 @@ public class ShLCS implements EventListener<Request, Answer>{
             System.out.println("Received bad command code answer: " + answerCommandCode);
             return;
         }
-		System.out.println("************************************************************************************");
         System.out.println("Received command code answer: " + answerCommandCode);
 		try {
 			long resultCode = resultAvp.getUnsigned32();
@@ -208,6 +212,8 @@ public class ShLCS implements EventListener<Request, Answer>{
 	public void sendRequest(Request request) throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
 		AvpSet requestAvps = request.getAvps();
 		
+		requestAvps.removeAvp(Avp.DESTINATION_HOST);
+
 		requestAvps.addAvp(Avp.AUTH_SESSION_STATE, 1, true, false);
 
 		AvpSet userid = requestAvps.addGroupedAvp(Avp.USER_IDENTITY, VENDOR_ID, true, false);
@@ -219,7 +225,7 @@ public class ShLCS implements EventListener<Request, Answer>{
 
 		requestAvps.addAvp(Avp.CURRENT_LOCATION, 0, VENDOR_ID, true, false);
 
-		requestAvps.addAvp(Avp.DATA_REFERENCE, "14", VENDOR_ID, true, false, true);
+		requestAvps.addAvp(Avp.DATA_REFERENCE, 14, VENDOR_ID, true, false, true);
 
 		this.session.send(request, this);
 	}
