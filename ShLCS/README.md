@@ -5,7 +5,7 @@
 - `LCS_config.xml`: File xml config cho client
 - Chạy `.jar`:
 ```
-java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.client.ShLCS
+java -classpath Aothatday.jar org.example.client.ShLCS
 ```
 
 ## Phía server, gửi phản hồi lại bằng bản tin Diameter User-Data Answer:
@@ -13,5 +13,5 @@ java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.exa
 - `serverconfig.xml`: File xml config cho server
 - Chạy `.jar`:
 ```
-java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.server.ShServer
+java -classpath Aothatday.jar org.example.server.ShServer
 ```
