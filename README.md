@@ -43,6 +43,6 @@ Chạy và bật wireshark trên `lo` để xem kết quả
 
 # LCS application trên Sh interface
 
-Folder `ShLCS` / `ShLCS.java` chứa khối Sh client, gửi bản tin User-Data Request tới server
+File `ShLCS/ShLCS.java` chứa khối Sh client, gửi bản tin User-Data Request tới server
 
-Folder `Server` / `ShServer.java` chứa khối Sh server, gửi v bản tin User-Data Answer
+File `ShLCS/ShServer.java` chứa khối Sh server, gửi bản tin User-Data Answer
