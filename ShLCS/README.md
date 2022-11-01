@@ -3,7 +3,7 @@
 ## Phía client, gửi bản tin Diamter User-Data Request:
 - `ShLCS.java`: Code Java Client
 - `LCS_config.xml`: File xml config cho client
-Chạy `.jar`:
+- Chạy `.jar`:
 ```
 java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.client.ShLCS
 ```
@@ -11,7 +11,7 @@ java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.exa
 ## Phía server, gửi phản hồi lại bằng bản tin Diameter User-Data Answer:
 - `ShServer.java`: Code Java Server
 - `serverconfig.xml`: File xml config cho server
-Chạy `.jar`:
+- Chạy `.jar`:
 ```
 java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.server.ShServer
 ```
