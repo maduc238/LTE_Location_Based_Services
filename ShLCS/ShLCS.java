@@ -221,12 +221,27 @@ public class ShLCS implements EventListener<Request, Answer>{
 
 		requestAvps.addAvp(Avp.REQUESTED_DOMAIN, 1, VENDOR_ID, true, false);
 
-		requestAvps.addAvp(713, 1, VENDOR_ID, false, false);
-
+		/**
+		 * Avp Requested-Nodes: type Unsigned32 and it shall contain a bit mask
+		 * Bit	Name
+		 *  0	MME
+		 *  1	SGSN
+		 *  2	3GPP-AAA-SERVER_TWAN
+		 *  3	AMF
+		 * 
+		 */
+		requestAvps.addAvp(713, 1, VENDOR_ID, false, false, true);
+		
+		/**
+		 * Avp Current-Location: type Enumerated
+		 *  0	DoNotNeedInitiateActiveLocationRetrieval
+		 *  1 	InitiateActiveLocationRetrieval
+		 */
 		requestAvps.addAvp(Avp.CURRENT_LOCATION, 0, VENDOR_ID, true, false);
 
 		requestAvps.addAvp(Avp.DATA_REFERENCE, 14, VENDOR_ID, true, false, true);
 
 		this.session.send(request, this);
+		
 	}
 }
