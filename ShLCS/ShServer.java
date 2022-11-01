@@ -214,12 +214,11 @@ public class ShServer implements ServerShSessionListener, IShMessageFactory, Net
     }
 
     // Xac dinh cac hanh dong can thuc hien khi gap ban tin UDR 
-    
     public void doUserDataRequestEvent(ServerShSession appSession, UserDataRequest request)  
          throws InternalException {
         //Dau tien lay ra cac AVP cua request
         AvpSet udrAvpSet = request.getMessage().getAvps();
-        System.out.println("****************************"+ udrAvpSet);
+    
         
         if (log.isInfoEnabled()) {
             log.info("<< Received User Data Request >>");
@@ -227,18 +226,35 @@ public class ShServer implements ServerShSessionListener, IShMessageFactory, Net
 
         //Lay ra msisdn cua subcriber
         try {
-            String userID = udrAvpSet.getAvp(Avp.USER_IDENTITY,10415).getUTF8String();
-            System.out.println(udrAvpSet.getAvps(Avp.USER_IDENTITY,10415)+"*****************" +userID + "*********************************************************" + this.msisdn);
+            String userID = udrAvpSet.getAvp(Avp.USER_IDENTITY,10415).getGrouped().getAvp(Avp.MSISDN, 10415).getDiameterIdentity();
             
             UserDataAnswer uda ;
+            /** < User-Data-Answer > ::= < Diameter Header: 306, PXY, 16777217 >
+                < Session-Id >
+                { Vendor-Specific-Application-Id }
+                [ Result-Code ]
+                [ Experimental-Result ]
+                { Auth-Session-State }
+                { Origin-Host }
+                { Origin-Realm }
+                *[ Supported-Features ]
+                [ Wildcarded-Public-Identity ]
+                [ Wildcarded-IMPU ]
+                [ User-Data ]
+                *[ AVP ]
+                *[ Failed-AVP ]
+                *[ Proxy-Info ]
+                *[ Route-Record ] 
+            */
             if(userID != null && userID.equals(magicConvert(this.msisdn))) {
                 uda = createUserDataAnswer(request, ResultCode.SUCCESS);
                 AvpSet udaAvps = uda.getMessage().getAvps();
 
                 // Lay user data tu file
                 try {
-                getUserData("org/example/server/user-data.xml");
-                udaAvps.addAvp(702,userData, 10415L, true, false, true);
+                getUserData("/home/aothatday/jdiameter/examples/guide1/src/main/resources/org/example/server/user-data.xml");
+                System.out.println("****************************"+ userData);
+                udaAvps.addAvp(Avp.USER_DATA_SH,userData, 10415, true, false, false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -259,6 +275,13 @@ public class ShServer implements ServerShSessionListener, IShMessageFactory, Net
         
         UserDataAnswerImpl answer = new UserDataAnswerImpl((Request) request.getMessage(), resultCode);
 
+        AvpSet reqAvp = request.getMessage().getAvps();
+        AvpSet ansAvp = answer.getMessage().getAvps();
+
+        Avp authState = request.getMessage().getAvps().getAvp(Avp.AUTH_SESSION_STATE);
+        if (authState != null) {
+          ansAvp.addAvp(authState);
+        }
         if (log.isInfoEnabled()) {
             log.info(">> Created User-Data-Answer.");
         }
@@ -287,12 +310,12 @@ public class ShServer implements ServerShSessionListener, IShMessageFactory, Net
 
     public void doOtherEvent(AppSession arg0, AppRequestEvent arg1, AppAnswerEvent arg2)
     throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
-  // TODO Auto-generated method stub
+    // TODO Auto-generated method stub
     }
 
     public void doProfileUpdateRequestEvent(ServerShSession arg0, ProfileUpdateRequest arg1)
     throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
-  // TODO Auto-generated method stub
+    // TODO Auto-generated method stub
     }
 
     
@@ -358,17 +381,17 @@ public class ShServer implements ServerShSessionListener, IShMessageFactory, Net
         return this.shAppId.getAuthAppId();
       }
 
-      private String magicConvert(String a) {
-        String cd = "";
-        int len = a.length();
-        if (a.length() % 2 != 0) {
-            a = a + "f";
-            len ++;
-        }
-        for(int i=0; i < len/2;i++){
-            int temp = Integer.decode("0x"+a.charAt(2*i+1)+a.charAt(2*i));
-            cd += Character.toString((char)temp);
-        }
-        return cd;
-    }
+    private String magicConvert(String a) {
+      String cd = "";
+      int len = a.length();
+      if (a.length() % 2 != 0) {
+          a = a + "f";
+          len ++;
+      }
+      for(int i=0; i < len/2;i++){
+          int temp = Integer.decode("0x"+a.charAt(2*i+1)+a.charAt(2*i));
+          cd += Character.toString((char)temp);
+      }
+      return cd;
+  }
 }
