@@ -204,10 +204,14 @@ public class ShLCS implements EventListener<Request, Answer>{
 			}
 		}
 	}
-
+	
 	/**
 	 * Send request to HSS
 	 * @param request message from LCS client
+	 * @throws InternalException
+	 * @throws IllegalDiameterStateException
+	 * @throws RouteException
+	 * @throws OverloadException
 	 */
 	public void sendRequest(Request request) throws InternalException, IllegalDiameterStateException, RouteException, OverloadException {
 		AvpSet requestAvps = request.getAvps();
@@ -219,10 +223,16 @@ public class ShLCS implements EventListener<Request, Answer>{
 		AvpSet userid = requestAvps.addGroupedAvp(Avp.USER_IDENTITY, VENDOR_ID, true, false);
 		userid.addAvp(Avp.MSISDN, magicConvert(MSISDN), VENDOR_ID, true, false, true);
 
+		/**
+		 * Requested-Domain AVP: type Enumerated. 
+		 * Indicates the access domain for which certain data (e.g. user state) are requested.
+		 *  0	CS-Domain		The requested data apply to the CS domain
+		 *  1	PS-Domain		The requested data apply to the PS domain
+		 */
 		requestAvps.addAvp(Avp.REQUESTED_DOMAIN, 1, VENDOR_ID, true, false);
 
 		/**
-		 * Avp Requested-Nodes: type Unsigned32 and it shall contain a bit mask
+		 * Requested-Nodes Avp: type Unsigned32 and it shall contain a bit mask
 		 * Bit	Name
 		 *  0	MME
 		 *  1	SGSN
@@ -233,14 +243,24 @@ public class ShLCS implements EventListener<Request, Answer>{
 		requestAvps.addAvp(713, 1, VENDOR_ID, false, false, true);
 		
 		/**
-		 * Avp Current-Location: type Enumerated
+		 * Current-Location Avp: type Enumerated
 		 *  0	DoNotNeedInitiateActiveLocationRetrieval
 		 *  1 	InitiateActiveLocationRetrieval
 		 */
 		requestAvps.addAvp(Avp.CURRENT_LOCATION, 0, VENDOR_ID, true, false);
 
+		/**
+		 * Data-Reference AVP: type Enumerated
+		 *  0	RepositoryData
+		 *  10	IMSPublicIdentity
+		 *  11	IMSUserState
+		 *  12	S-CSCFName
+		 *  13	InitialFilterCriteria
+		 * 	14 	LocationInformation ...
+		 */
 		requestAvps.addAvp(Avp.DATA_REFERENCE, 14, VENDOR_ID, true, false, true);
 
+		// Send request
 		this.session.send(request, this);
 		
 	}
