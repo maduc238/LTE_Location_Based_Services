@@ -1,6 +1,6 @@
 # GMLC build trên jDiameter
 
-Source code của jDiamete: https://github.com/RestComm/jdiameter
+Source code của jDiameter: https://github.com/RestComm/jdiameter
 
 Cụ thể:
 - Khối GMLC chứa trong folder `GMLC`
