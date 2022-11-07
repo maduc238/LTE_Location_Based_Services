@@ -1,4 +1,4 @@
-package com.example.LCS;
+package com.example.LCS.Database;
 
 import lombok.Data;
 
