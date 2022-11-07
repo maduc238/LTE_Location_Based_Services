@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.LCS.Database.Logging;
+import com.example.LCS.Database.Todo;
+
 @Controller
 public class WebController {
     List<Todo> todoList = new CopyOnWriteArrayList<>();
@@ -29,6 +32,7 @@ public class WebController {
 
     @GetMapping("/addrequest")
     public String addrequest(Model model) {
+		// diameter.postConstruct();
         model.addAttribute("todo", new Todo());
         return "addrequest";
     }
@@ -42,6 +46,9 @@ public class WebController {
 
     @GetMapping("/logging")
     public String logging(Model model) {
+		// if (diameter.stack == null) System.out.println("null");
+		// Huy no di :)) diameter.preDestroy();
+		// if (diameter.stack == null) System.out.println("null2");
 		model.addAttribute("loggingList", loggingList);
         return "logging";
     }
