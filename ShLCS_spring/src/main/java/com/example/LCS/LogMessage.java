@@ -3,6 +3,8 @@ package com.example.LCS;
 import java.util.Date;
 import java.util.List;
 
+import com.example.LCS.Database.Logging;
+
 public class LogMessage {
 	/**
 	 * Dạng HbH - EtE - Result Code - data
@@ -20,6 +22,13 @@ public class LogMessage {
 		loggingList.add(logs);
 	}
 
+	/**
+	 * Dạng HbH - EtE - data
+	 * @param loggingList
+	 * @param data
+	 * @param HopByHopId
+	 * @param EndToEndId
+	 */
 	static void addLogging(List<Logging> loggingList, String data, Long HopByHopId, Long EndToEndId) {
         Logging logs = new Logging();
         Date date = new Date();
