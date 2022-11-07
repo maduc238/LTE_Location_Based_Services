@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.jdiameter.api.Answer;
@@ -37,10 +38,10 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
 
 	private static final long VENDOR_ID = 10415;
 	// private static String MSISDN = "84976643224";
-	private Stack stack;
+	Stack stack;
 	private SessionFactory factory;
 
-	public org.jdiameter.api.Session session;
+	org.jdiameter.api.Session session;
 	// private boolean finished = false;
 
     @Autowired
@@ -50,6 +51,15 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
     public void postConstruct() {
         initStack();
         start();
+    }
+
+    @PreDestroy
+    public void preDestroy() {
+        this.stack.destroy();
+        this.stack = null;
+        this.factory = null;
+        this.session.release();
+        this.session = null;
     }
 
 	void initStack() {
@@ -89,6 +99,7 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
 				try {
 					is.close();
 				} catch (IOException e1) {
+                    LogMessage.addLogging(controller.loggingList, e1.getMessage());
 					e1.printStackTrace();
 				}
 			}
@@ -121,6 +132,7 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
 			// sendRequest();
 
 		} catch (InternalException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -167,7 +179,7 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
 			if (LogMessage.logResultCode(controller.loggingList, resultCode, answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier())) {
 				Avp ShUserData = resultAvps.getAvp(702, 10415);	// Lấy AVP 702
 				if(ShUserData != null) {
-					System.out.println(ShUserData.getDiameterIdentity());
+					// System.out.println(ShUserData.getDiameterIdentity());
 					try {
 						LogMessage.addLogging(controller.loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Nhận được dữ liệu XML. "+ XmlDeliver.ReadXML(XmlDeliver.loadXMLFromString(ShUserData.getDiameterIdentity())));
 					} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -180,6 +192,7 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
 			}
 
 		} catch (AvpDataException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -246,12 +259,16 @@ public class Diameter implements org.jdiameter.api.EventListener<Request, Answer
             this.session.send(request, this);
 			LogMessage.addLogRequest(controller.loggingList, request.getHopByHopIdentifier(), request.getEndToEndIdentifier(), MSISDN);
 		} catch (InternalException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		} catch (IllegalDiameterStateException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		} catch (RouteException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		} catch (OverloadException e) {
+            LogMessage.addLogging(controller.loggingList, e.getMessage());
 			e.printStackTrace();
 		}
 	}
