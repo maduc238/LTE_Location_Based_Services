@@ -5,7 +5,7 @@
     <URI value="aaa://lbsanm.ims.mnc004.mcc452.3gppnetwork.org:3868" />
 
     <IPAddresses>
-      <IPAddress value="127.0.0.5" />
+      <IPAddress value="192.168.14.35" />
     </IPAddresses>
     <Realm value="ims.mnc004.mcc452.3gppnetwork.org" />
     <VendorID value="10415" />
@@ -49,10 +49,10 @@
 
   <Network>
     <Peers>
-      <Peer name="aaa://127.0.0.1:3868" attempt_connect="true" rating="1" />
+      <Peer name="aaa://192.168.14.31:3868" attempt_connect="true" rating="1" />
     </Peers>
     <Realms>
-      <Realm name="ims.mnc004.mcc452.3gppnetwork.org" peers="127.0.0.1" local_action="LOCAL" dynamic="false" exp_time="1">
+      <Realm name="ims.mnc004.mcc452.3gppnetwork.org" peers="192.168.14.31" local_action="LOCAL" dynamic="false" exp_time="1">
         <ApplicationID>
           <VendorId value="10415" />
           <AuthApplId value="16777217" />
