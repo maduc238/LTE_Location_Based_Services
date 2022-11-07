@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.PostConstruct;
+import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.xml.sax.SAXException;
 import org.jdiameter.api.Answer;
 import org.jdiameter.api.ApplicationId;
 import org.jdiameter.api.Avp;
@@ -170,80 +171,20 @@ public class AppController implements org.jdiameter.api.EventListener<Request, A
 
 		try {
 			long resultCode = resultAvp.getUnsigned32();
-			switch ((int) resultCode) {
-				case 2001:
-					LogMessage.addLogging(loggingList, "DIAMETER_SUCCESS", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 4100:
-					LogMessage.addLogging(loggingList, "DIAMETER_USER_DATA_NOT_AVAILABLE", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 4101:
-					LogMessage.addLogging(loggingList, "DIAMETER_PRIOR_UPDATE_IN_PROGRESS", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 4201:
-					LogMessage.addLogging(loggingList, "The location of the targeted user is not known at this time to satisfy the requested operation!", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5001:
-					LogMessage.addLogging(loggingList, "Không xác định được IMSI hoặc MSISDN của người dùng!", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5002:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_IDENTITIES_DONT_MATCH", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;	
-				case 5004:
-					LogMessage.addLogging(loggingList, "Có vấn đề với HSS!", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5005:
-					LogMessage.addLogging(loggingList, "Có vấn đề với HSS!", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5006:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_SUBS_DATA_ABSENT", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5007:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_NO_SUBSCRIPTION_TO_DATA", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5008:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_TOO_MUCH_DATA", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5011:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_FEATURE_UNSUPPORTED", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5100:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_USER_DATA_NOT_RECOGNIZED", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5101:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_OPERATION_NOT_ALLOWED", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5102:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_USER_DATA_CANNOT_BE_READ", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5103:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_USER_DATA_CANNOT_BE_MODIFIED", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5104:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_USER_DATA_CANNOT_BE_NOTIFIED", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5105:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_TRANSPARENT_DATA_OUT_OF_SYNC", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5108:
-					LogMessage.addLogging(loggingList, "DIAMETER_ERROR_DSAI_NOT_AVAILABLE", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				case 5490:
-					LogMessage.addLogging(loggingList, "The requesting GMLC's network is not authorized to request UE location information!", answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier(), resultCode);
-					break;
-				
+			if (LogMessage.logResultCode(loggingList, resultCode, answer.getHopByHopIdentifier(), answer.getEndToEndIdentifier())) {
+				Avp ShUserData = resultAvps.getAvp(702, 10415);	// Lấy AVP 702
+				if(ShUserData != null) {
+					System.out.println(ShUserData.getDiameterIdentity());
+					try {
+						LogMessage.addLogging(loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Nhận được dữ liệu XML. "+ XmlDeliver.ReadXML(XmlDeliver.loadXMLFromString(ShUserData.getDiameterIdentity())));
+					} catch (ParserConfigurationException | SAXException | IOException e) {
+						LogMessage.addLogging(loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Nhận được dữ liệu XML nhưng không xử lý được");
+						e.printStackTrace();
+					}
+				} else {
+					LogMessage.addLogging(loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Không nhận được AVP Code 702 Sh-User-Data");
+				}
 			}
-			
-			Avp ShUserData = resultAvps.getAvp(702, 10415);
-			if(ShUserData != null) {
-				System.out.println(ShUserData.getUTF8String());
-				LogMessage.addLogging(loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Dữ liệu XML nhận được: "+ShUserData.getUTF8String());
-			} else {
-				LogMessage.addLogging(loggingList, "Hop by Hop Identifier: "+answer.getHopByHopIdentifier()+". End to End Identifier: "+answer.getEndToEndIdentifier()+". Không nhận được AVP Code 702 Sh-User-Data");
-			}
-			// this.session.release();
-			// this.session = null;
-			// finished = true;
 
 		} catch (AvpDataException e) {
 			e.printStackTrace();
@@ -322,7 +263,7 @@ public class AppController implements org.jdiameter.api.EventListener<Request, A
 		}
 	}
 
-	// Web *************************************************************
+	// Web controller *************************************************************
 
     @GetMapping("/listTodo")
     public String index(Model model, @RequestParam(value = "limit", required = false) Integer limit) {
