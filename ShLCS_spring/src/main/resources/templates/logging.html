@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Location Service Application</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <!--css-->
+  <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
+  <link th:href="@{/css/main.css}" rel="stylesheet" />
+
+  <!--js-->
+  <script th:src="@{/js/bootstrap.js}"></script>
+</head>
+<body>
+<h1>Danh sách logging:</h1>
+
+
+<ul>
+  <li th:each="logs : ${loggingList}">
+    <span th:text="*{logs.getTime()}"></span> : <span th:text="*{logs.getData()}"></span>
+  </li>
+</ul>
+
+<a href="/" class="btn btn-primary">Home</a>
+<a th:href="@{/addrequest}" class="btn btn-success"> + Thêm bản tin request</a>
+
+</body>
+
+</html>
