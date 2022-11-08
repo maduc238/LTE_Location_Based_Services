@@ -1,3 +1,18 @@
+# Build ứng dụng với Spring Boot
+
+- Folder `ShLCS_spring` gồm:
+  - Khối Location Service, gửi bản tin DIAMETER Location Request tới HSS
+  - Giao diện web: Xử lý tác vụ nhập thông tin MSISDN; xem thông tin log hoạt động và dữ liệu nhận được từ bản tin DIAMETER Location Answer
+- Folder `test` gồm:
+  - Khối HSS tiếp nhận bản tin DIAMETER Location Request, xử lý dữ liệu location trả về bằng bản tin DIAMETER Location Answer
+  - Mongo Database lưu trữ thông tin người dùng (Có thể kết hợp với mongoDB của Open5GS)
+
+# LCS application trên Sh interface
+
+File `ShLCS/ShLCS.java` chứa khối Sh client, gửi bản tin User-Data Request tới server
+
+File `ShLCS/ShServer.java` chứa khối Sh server, gửi bản tin User-Data Answer
+
 # GMLC build trên jDiameter
 
 Source code của jDiameter: https://github.com/RestComm/jdiameter
@@ -40,18 +55,3 @@ Ném file `example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar` vào đường d�
 java -classpath target/example1-1.7.0-SNAPSHOT-jar-with-dependencies.jar org.example.server.ExampleServer
 ```
 Chạy và bật wireshark trên `lo` để xem kết quả
-
-# LCS application trên Sh interface
-
-File `ShLCS/ShLCS.java` chứa khối Sh client, gửi bản tin User-Data Request tới server
-
-File `ShLCS/ShServer.java` chứa khối Sh server, gửi bản tin User-Data Answer
-
-# Build ứng dụng với Spring Boot
-
-- Folder `ShLCS_spring` gồm:
-  - Khối Location Service, gửi bản tin DIAMETER Location Request tới HSS
-  - Giao diện web: Xử lý tác vụ nhập thông tin MSISDN; xem thông tin log hoạt động và dữ liệu nhận được từ bản tin DIAMETER Location Answer
-- Folder `test` gồm:
-  - Khối HSS tiếp nhận bản tin DIAMETER Location Request, xử lý dữ liệu location trả về bằng bản tin DIAMETER Location Answer
-  - Mongo Database lưu trữ thông tin người dùng (Có thể kết hợp với mongoDB của Open5GS)
