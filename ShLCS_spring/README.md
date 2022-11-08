@@ -1,11 +1,18 @@
 # Sh_LCS Client
 
-Khối Location Service, gửi bản tin Request tới HSS
+Ứng dụng này bao gồm: 
+- Khối Location Service, gửi bản tin DIAMETER Request tới HSS
+- Giao diện web: Xử lý tác vụ nhập thông tin MSISDN; xem thông tin log hoạt động và dữ liệu nhận được từ bản tin DIAMETER Answer
 
-Chạy ứng dụng trong file `App.java`
+## Cấu hình ứng dụng
 
-Cấu hình `jDiameter` tại file `config.xml`
+Cấu hình `jDiameter` tại file `config.xml`. Chi tiết thông tin cấu hình trong Document của `jDiameter`
 
-Web Server để thực hiện gửi yêu cầu với số MSISDN. Truy cập tại http://127.0.0.1:8080
+Cấu hình web server tại file `application.properties`. Trong đây có địa chỉ ip và port cho web server
 
-Cấu hình web server tại file `application.properties`
+## Chạy ứng dụng
+
+Sử dụng Maven để chạy ứng dụng trong file `App.java`
+
+Sau khi chạy thành công, bật Web Server để thực hiện gửi yêu cầu với số MSISDN. Truy cập tại địa chỉ đã cấu hình trước đó, mặc định là http://127.0.0.1:8080
+
