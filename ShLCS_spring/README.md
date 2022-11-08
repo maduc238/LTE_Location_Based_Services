@@ -1,8 +1,8 @@
 # Sh_LCS Client
 
 Ứng dụng này bao gồm: 
-- Khối Location Service, gửi bản tin DIAMETER Request tới HSS
-- Giao diện web: Xử lý tác vụ nhập thông tin MSISDN; xem thông tin log hoạt động và dữ liệu nhận được từ bản tin DIAMETER Answer
+- Khối Location Service, gửi bản tin DIAMETER Location Request tới HSS
+- Giao diện web: Xử lý tác vụ nhập thông tin MSISDN; xem thông tin log hoạt động và dữ liệu nhận được từ bản tin DIAMETER Location Answer
 
 ## Cấu hình ứng dụng
 
