@@ -1,4 +1,4 @@
-# Build ứng dụng với Spring Boot
+# Build ứng dụng Location Service với Spring Boot
 
 - Folder `ShLCS_spring` gồm:
   - Khối Location Service, gửi bản tin DIAMETER Location Request tới HSS
