@@ -45,5 +45,6 @@ scripts/setup-app-layer.py Diameter
 ```
 Lệnh sysctl:
 ```
+sudo systemctl status suricata.service
 sudo systemctl restart suricata
 ```
