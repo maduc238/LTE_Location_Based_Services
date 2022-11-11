@@ -8,7 +8,7 @@ sudo apt-get install libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-
                 libnss3-dev libgeoip-dev liblua5.1-dev libhiredis-dev libevent-dev \
                 python-yaml rustc
 sudo apt-get install cargo
-sudo apt install ...
+sudo apt install libpcre2-dev libjansson-dev
 ```
 cbindgen v0.24.3
 ```
@@ -29,6 +29,9 @@ git clone https://github.com/OISF/suricata.git
 ```
 ```
 cd suricata
+git clone https://github.com/OISF/libhtp
+```
+```
 ./autogen.sh
 ```
 ```
