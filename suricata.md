@@ -16,7 +16,11 @@ cargo install --force cbindgen
 ```
 Chỉnh bash:
 ```
-nano ~/.bashrc
+vim ~/.bashrc
+```
+Thêm:
+```
+export PATH="/home/duc/.cargo/bin:$PATH"
 ```
 
 Clone:
