@@ -13,6 +13,10 @@ cbindgen v0.24.3
 ```
 cargo install --force cbindgen
 ```
+Chỉnh bash:
+```
+nano ~/.bashrc
+```
 
 Clone:
 ```
