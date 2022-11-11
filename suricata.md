@@ -43,3 +43,7 @@ Thêm protocol:
 ```
 scripts/setup-app-layer.py Diameter
 ```
+Lệnh sysctl:
+```
+sudo systemctl restart suricata
+```
