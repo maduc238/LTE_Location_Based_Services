@@ -4,7 +4,6 @@
 #include <stdbool.h>
 typedef __uint8_t uint8_t;
 typedef __uint32_t uint32_t;
-
 typedef struct AVP {
     uint32_t AvpCode;
     uint8_t AvpFlags;
@@ -14,7 +13,6 @@ typedef struct AVP {
     uint32_t AvpDataLength;
     struct AVP* next;
 } AVP;
-
 typedef struct DiameterMessage {
     uint8_t Version;
     uint32_t Length;
@@ -29,7 +27,6 @@ typedef struct DiameterMessage {
 uint32_t Read3Byte(uint8_t *data, uint8_t point);
 uint32_t Read4Byte(uint8_t *data, uint8_t point);
 uint8_t toBinaryAt(uint8_t a, uint8_t point);
-
 void addLast(struct AVP **avp, uint32_t AvpCode, uint8_t AvpFlags, uint32_t AvpLength, 
     uint32_t VendorId, uint8_t *AvpData, uint32_t AvpDataLength);
 
@@ -118,6 +115,7 @@ void addLast(struct AVP **avp, uint32_t AvpCode, uint8_t AvpFlags, uint32_t AvpL
     }
 }
 
+/* Print dữ liệu bản tin Diameter */
 void PrintDiameterData(DiameterMessage mess) {
     /* Print Diameter message */
     printf("Version: %d\n",mess.Version);
@@ -142,6 +140,7 @@ void PrintDiameterData(DiameterMessage mess) {
     }
 }
 
+/* Print dữ liệu bản tin Diameter */
 void PrintDiameterDataRaw(uint8_t *data, uint32_t data_len) {
     DiameterMessage mess = ReadDiameterData(data, data_len);
     PrintDiameterData(mess);
@@ -152,8 +151,9 @@ void PrintDiameterDataRaw(uint8_t *data, uint32_t data_len) {
  * 
  * \param mess Struct DiameterMessage
  * \param AvpCode AVP Code
+ * 
+ * \retval Nếu tồn tại AVP Code đó sẽ trả về true, ngược lại thì false
 */
-
 bool CheckAvpCode(DiameterMessage mess, uint32_t AvpCode) {
     while (mess.avp != NULL) {
         if (mess.avp->AvpCode == AvpCode) return true;
@@ -162,6 +162,32 @@ bool CheckAvpCode(DiameterMessage mess, uint32_t AvpCode) {
     return false;
 }
 
+/**
+ * \brief Kiểm tra xem AVP Code có tồn tại trong dữ liệu này không
+ * 
+ * \param mess Struct DiameterMessage
+ * \param AvpCode AVP Code
+ * \param VendorId Vendor Id của AVP Code này
+ * 
+ * \retval Nếu tồn tại AVP Code cùng với Vendor Id đó sẽ trả về true, ngược lại thì false
+*/
+bool CheckAvpCode(DiameterMessage mess, uint32_t AvpCode, uint32_t VendorId) {
+    while (mess.avp != NULL) {
+        if (toBinaryAt(mess.avp->AvpFlags,0) == 1) {
+            if (mess.avp->AvpCode == AvpCode && mess.avp->VendorId == VendorId) return true;
+        }
+        mess.avp = mess.avp->next;
+    }
+    return false;
+}
+
+/**
+ * Next step:
+ * Đọc sub-AVP từ data thuần
+ * Tích hợp vào suricata
+*/
+
+/* Tét */
 int main() {
     uint8_t data[] =
         {0x01, 0x00, 0x00, 0xe4, 0x80, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x33, 0x8c, 0x98, 0xd7,
