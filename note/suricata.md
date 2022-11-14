@@ -1,6 +1,6 @@
 Các gói dependence:
 ```
-sudo apt updata
+sudo apt update
 sudo apt install vim git
 sudo apt-get install libpcre3 libpcre3-dbg libpcre3-dev build-essential libpcap-dev   \
                 libnet1-dev libyaml-0-2 libyaml-dev pkg-config zlib1g zlib1g-dev \
