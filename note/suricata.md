@@ -53,6 +53,13 @@ Test file pcap
 ```
 suricata -c suricata.yaml -r file.pcap -v
 ```
+# Các hàm log
+```
+SCLogDebug() - Đỏ :))
+SCLogNotice() - Đậm
+SCLogInfo() - Thường
+```
+
 # Decode bản tin
 
 ```
