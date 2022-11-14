@@ -37,7 +37,7 @@ git clone https://github.com/OISF/libhtp
 ```
 ./configure --enable-nfqueue --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
-make install
+sudo make install
 ```
 Thêm protocol:
 ```
@@ -48,4 +48,8 @@ Lệnh sysctl:
 systemctl enable suricata.service 
 systemctl status suricata.service
 systemctl restart suricata
+```
+Test file pcap
+```
+suricata -c suricata.yaml -r file.pcap -v
 ```
