@@ -53,3 +53,10 @@ Test file pcap
 ```
 suricata -c suricata.yaml -r file.pcap -v
 ```
+# Decode bản tin
+
+```
+AppLayerDecoderEventsSetEventRaw()
+AppLayerDecoderEventsFreeEvents()
+
+```
