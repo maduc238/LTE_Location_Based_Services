@@ -53,6 +53,10 @@ Test file pcap
 ```
 suricata -c suricata.yaml -r file.pcap -v -k none
 ```
+# Detect Diameter:
+- Port 3868
+- TCP Flag 0x018 (PSH,ACK)
+
 # Các hàm log
 ```
 SCLogDebug() - Đỏ :))
