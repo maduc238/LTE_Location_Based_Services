@@ -51,7 +51,7 @@ systemctl restart suricata
 ```
 Test file pcap
 ```
-suricata -c suricata.yaml -r file.pcap -v
+suricata -c suricata.yaml -r file.pcap -v -k none
 ```
 # Các hàm log
 ```
